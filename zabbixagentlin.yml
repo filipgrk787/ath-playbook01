@@ -1,0 +1,21 @@
+---
+- name: Install Zabbix Agent on all Linux Hosts
+  hosts: all
+  become: true
+  vars:
+    zabbix_agent_version: 5.0
+  tasks:
+  - name: Add Zabbix repository
+    apt_repository:
+      repo: 'deb http://repo.zabbix.com/zabbix/{{ zabbix_agent_version }}/ubuntu focal main'
+      state: present
+      update_cache: true
+  - name: Install Zabbix Agent
+    apt:
+      name: zabbix-agent
+      state: present
+      update_cache: true
+  - name: Start Zabbix Agent
+    service:
+      name: zabbix-agent
+      state: started

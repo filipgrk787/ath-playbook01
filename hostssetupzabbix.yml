@@ -1,0 +1,24 @@
+- name: Set up new hosts in Zabbix server
+  hosts: ATH-HOSTS
+  vars:
+    zabbix_server_url: "http://10.147.56.49"
+    zabbix_api_user: "admin"
+    zabbix_api_password: "zabbix"
+  tasks:
+  - name: Add new hosts to Zabbix server
+    local_action:
+      module: zabbix_host
+      server_url: "{{ zabbix_server_url }}"
+      login_user: "{{ zabbix_api_user }}"
+      login_password: "{{ zabbix_api_password }}"
+      host_name: "{{ inventory_hostname }}"
+      host_groups:
+        - name: "Linux servers"
+      interfaces:
+        - type: 1
+          main: 1
+          useip: 1
+          ip: "{{ ansible_default_ipv4.address }}"
+          dns: "{{ ansible_hostname }}"
+          port: 10050
+      state: present

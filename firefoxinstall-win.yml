@@ -1,0 +1,15 @@
+---
+- name: Install Firefox on Windows
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Download Firefox installer
+      win_get_url:
+        url: https://download.mozilla.org/?product=firefox-latest&os=win64&lang=en-US
+        dest: C:\Windows\Temp\FirefoxSetup.exe
+
+    - name: Install Firefox
+      win_shell: C:\Windows\Temp\FirefoxSetup.exe /S
+      args:
+        creates: C:\Program Files\Mozilla Firefox
