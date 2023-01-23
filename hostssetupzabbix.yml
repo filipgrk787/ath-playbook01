@@ -1,5 +1,5 @@
 - name: Set up new hosts in Zabbix server
-  hosts: ATH-HOSTS
+  hosts: all
   vars:
     zabbix_server_url: "http://10.147.56.49"
     zabbix_api_user: "admin"
