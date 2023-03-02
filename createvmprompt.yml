@@ -1,0 +1,47 @@
+---
+- hosts: localhost
+  gather_facts: no
+
+  vars_prompt:
+    - name: vm_name
+      prompt: "Enter the name for the virtual machine"
+      private: no
+
+    - name: vm_template
+      prompt: "Enter the name of the VM template to use"
+      private: no
+
+    - name: vm_datastore
+      prompt: "Enter the name of the datastore to use"
+      private: no
+
+    - name: vm_network
+      prompt: "Enter the name of the network to use"
+      private: no
+
+    - name: vm_folder
+      prompt: "Enter the name of the folder to use"
+      private: no
+
+    - name: vcenter_username
+      prompt: "Enter your vCenter username"
+      private: no
+
+    - name: vcenter_password
+      prompt: "Enter your vCenter password"
+      private: yes
+
+  tasks:
+    - name: Create virtual machine
+      vmware_guest:
+        hostname: <vCenter hostname or IP address>
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: no
+        name: "{{ vm_name }}"
+        template: "{{ vm_template }}"
+        datastore: "{{ vm_datastore }}"
+        network: "{{ vm_network }}"
+        folder: "{{ vm_folder }}"
+        state: poweredon
+      delegate_to: localhost
